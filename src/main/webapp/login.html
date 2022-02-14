@@ -29,6 +29,8 @@
 		  <td><button onclick="authority('/guest/可以访问guest')">guest 访客接口</button></td>
 		  <td><button onclick="authority('/user/list')">list接口</button></td>
 		  <td><button onclick="authority('/user/create')">create user接口</button></td>
+		  <td><button onclick="authority('/getEmployees')">getEmployees接口</button></td>
+		  <td><button onclick="post('/addEmployee')">addEmployees接口</button></td>
 		</tr>
 	</table>
 	<textarea rows="5" cols="60" id="textarea"></textarea>
@@ -60,6 +62,24 @@
 				$('#textarea').val(JSON.stringify(res));
 			}
 		})
+	}
+	function post(url){
+		$.ajax({
+			  type: "POST",
+			  url: url,
+			  contentType: "application/json; charset=utf-8",  
+        	  dataType: "json",  
+        	  data: JSON.stringify({
+				    no: 8,
+				    name: "test",
+				    designation: "test designation",
+				    gender: "Male",
+				    instant: "01-03-2022"
+        	  }),			  
+			  success: function(res) {
+	                $('#textarea').val(JSON.stringify(res));
+	            }
+	        })
 	}
 	//权限测试
 	function authority(url){

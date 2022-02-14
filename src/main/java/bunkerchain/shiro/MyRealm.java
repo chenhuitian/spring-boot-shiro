@@ -18,6 +18,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import bunkerchain.server.UserService;
 
@@ -30,6 +31,7 @@ public class MyRealm extends AuthorizingRealm {
      */
 	
 	@Autowired
+	@Qualifier("UserServiceImpl")
 	UserService userService;
 	
     @Override
@@ -41,6 +43,11 @@ public class MyRealm extends AuthorizingRealm {
         return simpleAuthorizationInfo;
     }
 
+    @Override
+    public boolean supports(AuthenticationToken authenticationToken) {
+        return authenticationToken instanceof UsernamePasswordToken;
+    }
+    
     /**
      * 认证
      *
@@ -50,7 +57,7 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
+    	UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
 
         String username = token.getUsername();
         Map<String, Object> userInfo = userService.getUserInfo(username);
@@ -63,36 +70,5 @@ public class MyRealm extends AuthorizingRealm {
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username, userInfo.get("password"), salt, getName());
         return authenticationInfo;
-    }
-
-    /**
-     * 模拟数据库查询，通过用户名获取用户信息
-     *
-     * @param username
-     * @return
-     */
-    private Map<String, Object> getUserInfo(String username) {
-        Map<String, Object> userInfo = null;
-        if ("zhangsan".equals(username)) {
-            userInfo = new HashMap<>();
-            userInfo.put("username", "zhangsan");
-
-            //加密算法，原密码，盐值，加密次数
-            userInfo.put("password", new SimpleHash("MD5", "123456", username, 3));
-        }
-        return userInfo;
-    }
-
-    /**
-     * 模拟查询数据库，获取用户角色列表
-     *
-     * @param username
-     * @return
-     */
-    private Set<String> getRoles(String username) {
-        Set<String> roles = new HashSet<>();
-        roles.add("user");
-        roles.add("admin");
-        return roles;
     }
 }

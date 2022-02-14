@@ -8,20 +8,14 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bunkerchain.entity.User;
-import bunkerchain.repository.UserRepository;
 import bunkerchain.server.UserService;
 
-@Service("UserServiceImpl")
-public class UserServiceImpl implements UserService {
+@Service("GmailServiceImpl")
+public class GmailServiceImpl implements UserService {
 
-	@Autowired
-	UserRepository userRepository;
-	
-	
 	@Override
 	public Map<String, Object> getUserInfo(String username) {
 		Map<String, Object> userInfo = null;
@@ -30,7 +24,7 @@ public class UserServiceImpl implements UserService {
             userInfo.put("username", "admin");
 
             //加密算法，原密码，盐值，加密次数
-            userInfo.put("password", new SimpleHash("MD5", "1", username, 3));
+            userInfo.put("password", new SimpleHash("MD5", "2", username, 3));
         }
         
         if ("guest".equals(username)) {
@@ -38,7 +32,7 @@ public class UserServiceImpl implements UserService {
             userInfo.put("username", "guest");
 
             //加密算法，原密码，盐值，加密次数
-            userInfo.put("password", new SimpleHash("MD5", "1", username, 3));
+            userInfo.put("password", new SimpleHash("MD5", "2", username, 3));
         }
         
         return userInfo;
@@ -47,64 +41,57 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Set<String> getRoles(String username) {
 		// TODO Auto-generated method stub
-		Set<String> roles = new HashSet<>();
-		if ("admin".equals(username)) {
-			roles.add("user");
-	        roles.add("admin");
-			
-        } else if("guest".equals(username)) {
-        	roles.add("user");
-        }
-		
-        
-        return roles;
+		return null;
 	}
 
 	@Override
 	public Set<String> getPrivileges(String username) {
-		// TODO Auto-generated method stub
-		Set<String> privileges = new HashSet<>();
 		
-		if ("admin".equals(username)) {
-			privileges.add("user:list");
-			privileges.add("user:create");
-			
-        } else if("guest".equals(username)) {
-        	privileges.add("user:list");
-        }
+		return null;
 		
-        return privileges;
+//		Set<String> privileges = new HashSet<>();
+//		
+//		if ("admin".equals(username)) {
+//			privileges.add("user:list");
+//			privileges.add("user:create");
+//			
+//        } else if("guest".equals(username)) {
+//        	privileges.add("user:list");
+//        	privileges.add("user:create");
+//        }
+//		
+//        return privileges;
 	}
+
 
 	@Override
-	public Optional<User> findById(Long id) {
+	public List<User> findAll() {
 		// TODO Auto-generated method stub
-		return userRepository.findById(id);
+		return null;
 	}
-
 
 	@Override
 	public void deleteById(long id) {
 		// TODO Auto-generated method stub
-		userRepository.deleteById(id);
+		
 	}
 
 	@Override
 	public User addUser(User user) {
 		// TODO Auto-generated method stub
-		return userRepository.save(user);
+		return null;
 	}
 
 	@Override
 	public User updateUser(User user) {
 		// TODO Auto-generated method stub
-		return userRepository.save(user);
+		return null;
 	}
 
 	@Override
-	public List<User> findAll() {
+	public Optional<User> findById(Long id) {
 		// TODO Auto-generated method stub
-		return userRepository.findAll();
+		return null;
 	}
 
 	@Override

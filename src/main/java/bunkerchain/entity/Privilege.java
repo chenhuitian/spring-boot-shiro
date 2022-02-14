@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
@@ -19,22 +20,15 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "privilege")
+public class Privilege {
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	private String userName;
-	private String passWord;
+	private String operation;
 	
-	@ManyToMany(mappedBy = "users",fetch = FetchType.LAZY)
-	@JsonIgnoreProperties(value={ "users" })
+	@ManyToMany(mappedBy = "privileges",fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value={ "users", "privileges" })
 	private List<Role> roles;
-//	
-//	@ManyToMany(mappedBy = "privileges",fetch = FetchType.LAZY)
-//	@JsonIgnoreProperties(value={ "users" })
-//	private List<Role> privileges;
-	
-
 }

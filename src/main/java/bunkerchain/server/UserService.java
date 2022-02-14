@@ -1,10 +1,20 @@
 package bunkerchain.server;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
-public interface UserService {
-	 Map<String, Object> getUserInfo(String username);
-	 Set<String> getRoles(String username);
-	 Set<String> getPrivileges(String username);
+import bunkerchain.entity.User;
+
+public interface UserService {	
+	Optional<User> findById(Long id);
+	List<User> findAll();
+	void deleteById(long id);
+	User addUser(User user);
+	User updateUser(User user);
+	User getUserById(long id);
+	Map<String, Object> getUserInfo(String username);
+	Set<String> getRoles(String username);
+	Set<String> getPrivileges(String username);
 }
