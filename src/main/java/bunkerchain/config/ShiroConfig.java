@@ -43,14 +43,14 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
     	
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        Map<String, Filter> filters = new HashMap<String, Filter>();
-        filters.put("jwt",new JwtFilter());
-        shiroFilterFactoryBean.setFilters(filters);
+//        Map<String, Filter> filters = new HashMap<String, Filter>();
+////        filters.put("jwt",new JwtFilter());
+//        shiroFilterFactoryBean.setFilters(filters);
         //设置安全管理器
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
         //设置未认证(登录)时，访问需要认证的资源时跳转的页面
-        shiroFilterFactoryBean.setLoginUrl("/login");
+        shiroFilterFactoryBean.setLoginUrl("/login.html");
 
         //设置访问无权限的资源时跳转的页面
         shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorizedPage");
@@ -60,20 +60,27 @@ public class ShiroConfig {
         Map<String, String> filterMap = new HashMap<>();
         //设置/user/login不需要登录就能访问
         filterMap.put("/user/login", "anon");
-        //设置/user/list需要登录用户拥有角色user时才能访问
-        filterMap.put("/user/list", "roles[user]");
-        //其他路径则需要登录才能访问
-      filterMap.put("/employees/**", "jwt");
-      filterMap.put("/user/**", "jwt");
+        filterMap.put("/employees/**", "authc");
         filterMap.put("/**", "anon");
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
-        return shiroFilterFactoryBean;
+        
+//        //设置/user/list需要登录用户拥有角色user时才能访问
+//        filterMap.put("/user/list", "roles[user]");
+//        //其他路径则需要登录才能访问
+//      filterMap.put("/employees/**", "authc");
+//      filterMap.put("/privileges/**", "authc");
+//      filterMap.put("/users/**", "jwt");
+//      filterMap.put("/**", "anon");
+      shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
+      return shiroFilterFactoryBean;
     }
 
     @Bean
     public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
-        defaultWebSecurityManager.setRealms(Arrays.asList(myRealm(), gmailRealm(), tokenRealm()));
+
+        defaultWebSecurityManager.setRealms(Arrays.asList(myRealm(), tokenRealm()));
+        
+//        defaultWebSecurityManager.setRealms(Arrays.asList(myRealm(), gmailRealm(), tokenRealm()));
 //        defaultWebSecurityManager.setRealms(Arrays.asList(myRealm()));
 //        defaultWebSecurityManager.setRealms(Arrays.asList(gmailRealm()));
         return defaultWebSecurityManager;
@@ -82,13 +89,14 @@ public class ShiroConfig {
     @Bean
     public Realm myRealm() {
         MyRealm realm = new MyRealm();
-        //使用HashedCredentialsMatcher带加密的匹配器来替换原先明文密码匹配器
-        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        //指定加密算法
-        hashedCredentialsMatcher.setHashAlgorithmName("MD5");
-        //指定加密次数
-        hashedCredentialsMatcher.setHashIterations(3);
-        realm.setCredentialsMatcher(hashedCredentialsMatcher);
+//        realm.setPermissionResolver(null);
+//        //使用HashedCredentialsMatcher带加密的匹配器来替换原先明文密码匹配器
+//        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+//        //指定加密算法
+//        hashedCredentialsMatcher.setHashAlgorithmName("MD5");
+//        //指定加密次数
+//        hashedCredentialsMatcher.setHashIterations(3);
+//        realm.setCredentialsMatcher(hashedCredentialsMatcher);
         return realm;
     }
     
@@ -99,18 +107,18 @@ public class ShiroConfig {
         return realm;
     }
     
-    @Bean
-    public Realm gmailRealm() {
-    	GmailRealm realm = new GmailRealm();
-        //使用HashedCredentialsMatcher带加密的匹配器来替换原先明文密码匹配器
-        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        //指定加密算法
-        hashedCredentialsMatcher.setHashAlgorithmName("MD5");
-        //指定加密次数
-        hashedCredentialsMatcher.setHashIterations(3);
-        realm.setCredentialsMatcher(hashedCredentialsMatcher);
-        return realm;
-    }
+//    @Bean
+//    public Realm gmailRealm() {
+//    	GmailRealm realm = new GmailRealm();
+//        //使用HashedCredentialsMatcher带加密的匹配器来替换原先明文密码匹配器
+//        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+//        //指定加密算法
+//        hashedCredentialsMatcher.setHashAlgorithmName("MD5");
+//        //指定加密次数
+//        hashedCredentialsMatcher.setHashIterations(3);
+//        realm.setCredentialsMatcher(hashedCredentialsMatcher);
+//        return realm;
+//    }
        
     
     @Bean

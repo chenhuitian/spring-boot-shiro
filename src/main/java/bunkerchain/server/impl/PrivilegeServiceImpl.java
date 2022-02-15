@@ -48,4 +48,6 @@ public class PrivilegeServiceImpl implements PrivilegeService {
 		return privilegeRepository.findAll();
 	}
 
+
+
 }

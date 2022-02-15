@@ -12,4 +12,5 @@ public interface PrivilegeService {
 	Privilege updatePrivilege(Privilege privilege);
 	void deletePrivilege(Long privilegeId);
 	
+	
 }

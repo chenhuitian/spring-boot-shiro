@@ -25,11 +25,16 @@
 	<table>
 		<tr>
 		  <td><button onclick="authority('/admin/可以访问admin')">admin 管理员接口</button></td>
-		  <td><button onclick="authority('/consumer/可以访问consumer')">consumer 用户接口</button></td>
-		  <td><button onclick="authority('/guest/可以访问guest')">guest 访客接口</button></td>
-		  <td><button onclick="authority('/user/list')">list接口</button></td>
+		  <td><button onclick="authority('/test/list')">list 用户接口</button></td>
+		  <td><button onclick="authority('/test/create')">create 访客接口</button></td>
+		  <td><button onclick="authority('test/list')">list接口</button></td>
+		  
+		  </tr>
+		  <tr>
 		  <td><button onclick="authority('/user/create')">create user接口</button></td>
 		  <td><button onclick="authority('/getEmployees')">getEmployees接口</button></td>
+		   <td><button onclick="authority('/privileges/2')">getOneprivileges接口</button></td>
+		   <td><button onclick="authority('/privileges')">get all privileges接口</button></td>
 		  <td><button onclick="post('/addEmployee')">addEmployees接口</button></td>
 		</tr>
 	</table>
@@ -43,7 +48,7 @@
 		var flag = $('#rememberMe').prop('checked');
 		console.log(flag)
 		$.ajax({
-			url : '/user/login/'+username+'/'+flag+'/'+password,
+			url : '/ac/login/'+username+'/'+flag+'/'+password,
 			// data : {
 			// 	'username' : username,
 			// 	'password' : password,
@@ -57,7 +62,7 @@
 	}
 	function loginout() {//登出
 		$.ajax({
-			url : '/user/logout',
+			url : '/ac/logout',
 			success : function(res) {
 				$('#textarea').val(JSON.stringify(res));
 			}

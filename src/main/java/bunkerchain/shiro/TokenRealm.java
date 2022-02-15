@@ -1,6 +1,6 @@
 package bunkerchain.shiro;
 
-import java.util.Map;
+import java.util.Optional;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import bunkerchain.common.Constant;
+import bunkerchain.entity.User;
 import bunkerchain.server.UserService;
 import bunkerchain.util.JwtUtil;
 
@@ -29,9 +29,13 @@ public class TokenRealm extends AuthorizingRealm{
 	private UserService userService;
 	
 	 @Override
-	    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {		 	
+	    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {		
+
+		 
 		 	Object username = principalCollection.getPrimaryPrincipal();
 	        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+	        
+	        //add roles and privileges
 	        simpleAuthorizationInfo.setRoles(userService.getRoles(username.toString()));
 	        simpleAuthorizationInfo.setStringPermissions(userService.getPrivileges(username.toString()));
 	        return simpleAuthorizationInfo;
@@ -81,15 +85,28 @@ public class TokenRealm extends AuthorizingRealm{
 	    @Override
 	    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
 	    	
-	    	JwtToken token = (JwtToken) auth;
-
-	        String username = JwtUtil.getUsername(token.getToken());
-	        
-	        Map<String, Object> userInfo = userService.getUserInfo(username);
-	        if (userInfo == null) {
-	            throw new UnknownAccountException();
-	        }
-	        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username,token ,"TokenRealm");
-	        return authenticationInfo;
+	    	JwtToken token = (JwtToken)auth;
+	    	
+	    	String userName = JwtUtil.getUsername(token.getToken());
+	    	
+	    	Optional<User> userOptional = userService.findByUserName(userName);
+	    	
+	    	if(!userOptional.isPresent()) {
+	    		throw new UnknownAccountException("no person");
+	    	}
+	    	
+	    	SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userName,token,"TokenRealm");
+	    	return authenticationInfo;
+	    	
+//	    	JwtToken token = (JwtToken) auth;
+//
+//	        String username = JwtUtil.getUsername(token.getToken());
+//	        
+//	        Map<String, Object> userInfo = userService.getUserInfo(username);
+//	        if (userInfo == null) {
+//	            throw new UnknownAccountException();
+//	        }
+//	        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username,token ,"TokenRealm");
+//	        return authenticationInfo;
 	    }
 }

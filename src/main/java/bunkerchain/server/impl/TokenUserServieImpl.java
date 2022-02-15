@@ -113,4 +113,16 @@ public class TokenUserServieImpl implements UserService {
 		return null;
 	}
 
+	@Override
+	public Optional<User> findByUserNameAndPassWord(String userName, String passWord) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<User> findByUserName(String userName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import bunkerchain.entity.User;
+import bunkerchain.server.PrivilegeService;
 import bunkerchain.server.UserService;
 
 @RestController
@@ -23,7 +24,10 @@ import bunkerchain.server.UserService;
 public class UserController {
 	@Autowired
 	@Qualifier("UserServiceImpl")
-	UserService userService;
+	UserService userService;	
+	
+	@Autowired
+	PrivilegeService privilegeService;
 	
 	
 	@RequestMapping
@@ -35,6 +39,12 @@ public class UserController {
 	public ResponseEntity<Optional<User>>  findById( @PathVariable Long id) {
 		return new ResponseEntity<Optional<User>>(userService.findById(id), HttpStatus.OK);
 	}
+	
+	@RequestMapping("/name/{userName}")
+	public ResponseEntity<Optional<User>>  findByUserName( @PathVariable String userName) {
+		return new ResponseEntity<Optional<User>>(userService.findByUserName(userName), HttpStatus.OK);
+	}
+	
 	
 	@PostMapping
 	public ResponseEntity<User> addRole(@RequestBody User user){		

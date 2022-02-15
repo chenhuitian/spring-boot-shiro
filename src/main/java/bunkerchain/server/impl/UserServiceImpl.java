@@ -92,6 +92,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User addUser(User user) {
 		// TODO Auto-generated method stub
+		String userName = user.getUserName();
+		String pwdString = user.getPassWord();
+		
+		SimpleHash hashPwdString = new SimpleHash("MD5", pwdString, userName, 3);
+		String hexpwdString = hashPwdString.toBase64();
+		user.setPassWord(hexpwdString);
 		return userRepository.save(user);
 	}
 
@@ -111,6 +117,18 @@ public class UserServiceImpl implements UserService {
 	public User getUserById(long id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Optional<User> findByUserNameAndPassWord(String userName, String passWord) {
+		// TODO Auto-generated method stub
+		return userRepository.findByUserNameAndPassWord(userName,passWord);
+	}
+
+	@Override
+	public Optional<User> findByUserName(String userName) {
+		// TODO Auto-generated method stub
+		return userRepository.findByUserName(userName);
 	}
 
 }

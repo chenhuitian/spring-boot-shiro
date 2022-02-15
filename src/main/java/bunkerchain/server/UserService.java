@@ -9,6 +9,9 @@ import bunkerchain.entity.User;
 
 public interface UserService {	
 	Optional<User> findById(Long id);
+	Optional<User> findByUserNameAndPassWord(String userName, String passWord);
+	Optional<User> findByUserName(String userName);
+	
 	List<User> findAll();
 	void deleteById(long id);
 	User addUser(User user);
