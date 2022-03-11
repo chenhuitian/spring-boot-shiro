@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import bunkerchain.entity.User;
 import bunkerchain.server.UserService;
 
-@Service("GmailServiceImpl")
+//@Service("GmailServiceImpl")
 public class GmailServiceImpl implements UserService {
 
 	@Override

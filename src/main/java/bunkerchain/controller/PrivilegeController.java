@@ -3,11 +3,11 @@ package bunkerchain.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,12 +25,13 @@ public class PrivilegeController {
 	PrivilegeService privilegeService;
 
 	
-	@RequestMapping("/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Optional<Privilege> > findById(@PathVariable Long id){
 		return new ResponseEntity<Optional<Privilege>>(privilegeService.findById(id),HttpStatus.OK);
 	}
 
-	@RequestMapping
+	@GetMapping	
+//	@RequiresPermissions(value = {"privilege:listAll"},logical = Logical.AND)
 	public ResponseEntity<List<Privilege>> findAll(){
 		return new ResponseEntity<List<Privilege>>(privilegeService.findAll(),HttpStatus.OK);
 	}

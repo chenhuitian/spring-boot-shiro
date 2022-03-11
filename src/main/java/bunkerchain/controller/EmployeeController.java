@@ -17,13 +17,13 @@ import bunkerchain.entity.Employee;
 public class EmployeeController {
 	
     @RequestMapping("/list")
-    @RequiresPermissions("employee:list")
+//    @RequiresPermissions("employee:list")
     public List<Employee> getEmployees() {
         return Employee.getEmployee();
     }
     
     @PostMapping("/add")
-    @RequiresPermissions("employee:add")
+//    @RequiresPermissions("employee:add")
     public List<Employee> addEmployees(@RequestBody Employee employee) {
         return Employee.addEmployee(employee);
     }

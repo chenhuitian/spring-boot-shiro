@@ -1,6 +1,9 @@
 package bunkerchain.controller;
 
-import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,20 +12,29 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
 //	@RequiresPermissions("user:list")
-	@RequestMapping("/list")
-//	@RequiresPermissions(value = {"user:list"},logical = Logical.OR)
+	@GetMapping("/list")
+    @RequiresPermissions(logical = Logical.AND, value = {"user:list"})
 	public String userList() {
-		org.apache.shiro.subject.Subject curentUser =  SecurityUtils.getSubject();
-		if(!curentUser.isPermitted("user:list")) {
-			return "can not list user";
-		}
+//		org.apache.shiro.subject.Subject curentUser =  SecurityUtils.getSubject();
+//		if(!curentUser.isPermitted("user:list")) {
+//			return "can not list user";
+//		}
 		return "list user！";
 	}
 	//
 //	@RequiresPermissions("user:create")
-	@RequestMapping("/create")
+	 @GetMapping("/create")
+	 @RequiresRoles("admin")
+//	 @RequiresPermissions("user:create")
 	public String createUser() {
 		return "create user！";
+	}
+	 
+	 @GetMapping("/modify")
+	 @RequiresRoles("guest")
+//	 @RequiresPermissions("user:create")
+	public String  User() {
+		return "modify user！";
 	}
 //	@Autowired
 //	@Qualifier("UserServiceImpl")

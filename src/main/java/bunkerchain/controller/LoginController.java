@@ -29,7 +29,7 @@ import bunkerchain.util.JwtUtil;
 public class LoginController {
 
 	@Autowired
-	@Qualifier("UserServiceImpl")
+//	@Qualifier("UserServiceImpl")
 	UserService userService;
 
 	/**

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import bunkerchain.entity.User;
 import bunkerchain.server.UserService;
 
-@Service("TokenUserServieImpl")
+//@Service("TokenUserServieImpl")
 public class TokenUserServieImpl implements UserService {
 
 	@Override
